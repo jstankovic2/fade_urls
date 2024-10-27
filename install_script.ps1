@@ -34,3 +34,6 @@ Write-Output "college-app-saf.exe started."
 
 # Display the completion message
 [System.Windows.Forms.MessageBox]::Show("Installation complete. You can close this window.", "Installation Status", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
+
+# Exit the script after message box is closed
+Exit
