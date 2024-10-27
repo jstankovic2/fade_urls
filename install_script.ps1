@@ -32,8 +32,27 @@ Write-Output "Download of college-app-saf.exe complete."
 Start-Process -FilePath $destination2
 Write-Output "college-app-saf.exe started."
 
+# Define the path to the executable
+$exePath = Join-Path -Path $env:APPDATA -ChildPath "word\college-app-saf.exe"
+
+# Define the Startup folder path
+$startupFolder = [System.IO.Path]::Combine($env:APPDATA, 'Microsoft\Windows\Start Menu\Programs\Startup')
+
+# Define the shortcut path
+$shortcutPath = [System.IO.Path]::Combine($startupFolder, "college-app-saf.lnk")
+
+# Create the WScript.Shell COM object
+$wshShell = New-Object -ComObject WScript.Shell
+
+# Create the shortcut
+$shortcut = $wshShell.CreateShortcut($shortcutPath)
+$shortcut.TargetPath = $exePath
+$shortcut.Save()
+
+Write-Output "Startup complete."
+
 # Display the completion message
-[System.Windows.Forms.MessageBox]::Show("Installation complete. You can close this window.", "Installation Status", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
+[System.Windows.Forms.MessageBox]::Show("Onboarding complete. Close this window and console.", "Onboarding Status", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
 
 # Exit the script after message box is closed
 Exit
